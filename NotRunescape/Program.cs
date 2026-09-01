@@ -82,10 +82,19 @@ static void HandleDropItem(Player player)
     Console.Write("\nEnter the exact name of the item to drop: ");
     string itemToDrop = Console.ReadLine()?.Trim() ?? "";
 
+    string? matchedKey = player.Inventory.Keys
+        .FirstOrDefault(k => k.Equals(itemToDrop, StringComparison.OrdinalIgnoreCase));
+
+    if (matchedKey == null)
+    {
+        Console.WriteLine("You don't have that item.");
+        return;
+    }
+    
     Console.Write("How many to drop?: ");
     if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
     {
-        if (player.DropItem(itemToDrop, amount))
+        if (player.DropItem(matchedKey, amount))
         {
             Console.WriteLine($"Dropped {amount}x {itemToDrop}.");
         }
