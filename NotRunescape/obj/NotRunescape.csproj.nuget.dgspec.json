@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Datamatiker\\3rd_semester\\SYS\\not-runescape\\NotRunescape\\NotRunescape.csproj": {}
+    "C:\\Users\\najap\\notrunescape\\not-runescape\\NotRunescape\\NotRunescape.csproj": {}
   },
   "projects": {
-    "C:\\Datamatiker\\3rd_semester\\SYS\\not-runescape\\NotRunescape\\NotRunescape.csproj": {
+    "C:\\Users\\najap\\notrunescape\\not-runescape\\NotRunescape\\NotRunescape.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Datamatiker\\3rd_semester\\SYS\\not-runescape\\NotRunescape\\NotRunescape.csproj",
+        "projectUniqueName": "C:\\Users\\najap\\notrunescape\\not-runescape\\NotRunescape\\NotRunescape.csproj",
         "projectName": "NotRunescape",
-        "projectPath": "C:\\Datamatiker\\3rd_semester\\SYS\\not-runescape\\NotRunescape\\NotRunescape.csproj",
-        "packagesPath": "C:\\Users\\Johanna\\.nuget\\packages\\",
-        "outputPath": "C:\\Datamatiker\\3rd_semester\\SYS\\not-runescape\\NotRunescape\\obj\\",
+        "projectPath": "C:\\Users\\najap\\notrunescape\\not-runescape\\NotRunescape\\NotRunescape.csproj",
+        "packagesPath": "C:\\Users\\najap\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\najap\\notrunescape\\not-runescape\\NotRunescape\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Johanna\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\najap\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
