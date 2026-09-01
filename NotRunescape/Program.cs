@@ -121,7 +121,7 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
     while (player.CurrentHp > 0 && giantHp > 0)
     {
         Console.WriteLine($"Your HP: {player.CurrentHp}/{player.MaxHp} | Hill Giant HP: {giantHp}");
-        Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster\nChoice: ");
+        Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster [3] Special Attack\nChoice: ");
         var choice = Console.ReadLine()?.Trim();
 
         if (choice == "1")
@@ -144,6 +144,17 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
             {
                 Console.WriteLine("\nYou don't have any Lobsters in your inventory!");
             }
+        }
+        else if (choice == "3")
+        {
+            int roll1 = rng.Next(0, 10);
+            int roll2 = rng.Next(0, 10);
+            giantHp -= (roll1 + roll2);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nYou slash the Hill Giant for a {roll1} + {roll2}!");
+            Console.ResetColor();
+            player.Gold -= 50;
+            Console.WriteLine($"\nYou used 50 GP on this special attack.\nCurrent gold: {player.Gold} GP");
         }
 
         if (giantHp > 0)
