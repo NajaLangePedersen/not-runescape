@@ -1,4 +1,5 @@
-﻿using NotRunescape;
+﻿using System.Collections.Concurrent;
+using NotRunescape;
 using OsrsTracker;
 
 var bossLogs = new List<BossLog>();
@@ -21,7 +22,7 @@ Console.WriteLine($"Welcome to Gielinor, {Name}");
 while (true)
 {
     Console.WriteLine($"\n[HP: {player.CurrentHp}/{player.MaxHp} | Gold: {player.Gold} GP]");
-    Console.Write("[1] Log Boss Kill  [2] View Drop Log  [3] View Inventory  [4] Drop Item  [5] Rest at Lumbridge [99] Fight Hill Giant  [0] Exit\nChoice: ");
+    Console.Write("[1] Log Boss Kill  [2] View Drop Log  [3] View Inventory  [4] Drop Item  [5] Rest at Lumbridge  [6] Top Hits  [99] Fight Hill Giant  [0] Exit\nChoice: ");
     var input = Console.ReadLine()?.Trim();
 
     if (input == "0") break;
@@ -68,6 +69,10 @@ while (true)
             Console.WriteLine("You have rested and healed.");
         }
     }
+    else if (input == "6")
+    {
+        ShowTopHits(player);
+    }
     else if (input == "99")
     {
         StartGiantFight(player, bossLogs);
@@ -109,6 +114,25 @@ static void HandleDropItem(Player player)
     }
 }
 
+static void ShowTopHits(Player player)
+{
+    Console.WriteLine("\n--- Top Hits ---");
+
+    if (player.HitHistory.Count == 0)
+    {
+        Console.WriteLine("No hits recorded yet.");
+        return;
+    }
+
+    var topHits = player.HitHistory
+        .OrderByDescending(h => h).Take(3).ToList();
+
+    for (int i = 0; i < topHits.Count; i++)
+    {
+        Console.WriteLine($"#{i + 1}: {topHits[i]} damage");
+    }
+}
+
 static void StartGiantFight(Player player, List<BossLog> bossLogs)
 {
     if (player.CurrentHp <= 0)
@@ -137,6 +161,7 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
         {
             int playerHit = rng.Next(0, 15);
             giantHp -= playerHit;
+            player.HitHistory.Add(playerHit);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou slash the Hill Giant for a {playerHit}!");
             Console.ResetColor();
@@ -159,6 +184,7 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
             int roll1 = rng.Next(0, 10);
             int roll2 = rng.Next(0, 10);
             giantHp -= (roll1 + roll2);
+            player.HitHistory.Add(roll1+roll2);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou slash the Hill Giant for a {roll1} + {roll2}!");
             Console.ResetColor();

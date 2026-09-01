@@ -7,6 +7,7 @@ public class Player
     public int CurrentHp { get; set; } = 35;
     public int MaxHp { get; set; } = 35;
     public int Gold { get; set; } = StarterGold;
+    public List<int> HitHistory { get; set; } = new();
     public Dictionary<string, int> Inventory { get; set; } = new()
     {
         { "Lobster", 3 },
