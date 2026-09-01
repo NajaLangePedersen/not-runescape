@@ -22,7 +22,7 @@ Console.WriteLine($"Welcome to Gielinor, {Name}");
 while (true)
 {
     Console.WriteLine($"\n[HP: {player.CurrentHp}/{player.MaxHp} | Gold: {player.Gold} GP]");
-    Console.Write("[1] Log Boss Kill  [2] View Drop Log  [3] View Inventory  [4] Drop Item  [5] Rest at Lumbridge  [6] Top Hits  [99] Fight Hill Giant  [0] Exit\nChoice: ");
+    Console.Write("[1] Log Boss Kill  [2] View Drop Log  [3] View Inventory  [4] Drop Item  [5] Rest at Lumbridge  [6] Top Hits  [7]  Drop Statistics [99] Fight Hill Giant  [0] Exit\nChoice: ");
     var input = Console.ReadLine()?.Trim();
 
     if (input == "0") break;
@@ -72,6 +72,10 @@ while (true)
     else if (input == "6")
     {
         ShowTopHits(player);
+    }
+    else if (input == "7")
+    {
+        DropStatistics(bossLogs);
     }
     else if (input == "99")
     {
@@ -131,6 +135,24 @@ static void ShowTopHits(Player player)
     {
         Console.WriteLine($"#{i + 1}: {topHits[i]} damage");
     }
+}
+
+static void DropStatistics(List<BossLog> bossLogs)
+{
+    Console.WriteLine("\n--- Drop Statistics ---");
+
+    if (bossLogs.Count == 0)
+    {
+        Console.WriteLine("No kills logged.");
+        return;
+    }
+
+    int totalKills = bossLogs.Count;
+    int uniqueDrops = bossLogs.Count(log => log.IsUnique);
+
+    double percentage = (double)uniqueDrops / totalKills * 100;
+
+    Console.WriteLine($"Unique Drop Rate: {percentage:F2}%");
 }
 
 static void StartGiantFight(Player player, List<BossLog> bossLogs)
