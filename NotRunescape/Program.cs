@@ -69,6 +69,10 @@ while (true)
             Console.WriteLine("You have rested and healed.");
         }
     }
+    else if (input == "6")
+    {
+        ShowTopHits(player);
+    }
     else if (input == "7")
     {
         Console.WriteLine($"You currently have: {player.Gold} GP");
@@ -91,10 +95,6 @@ while (true)
             Console.WriteLine("You don't have enough money for this item :'(");
         }
         
-    }
-    else if (input == "6")
-    {
-        ShowTopHits(player);
     }
     else if (input == "8")
     {
