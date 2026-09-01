@@ -21,7 +21,7 @@ Console.WriteLine($"Welcome to Gielinor, {Name}");
 while (true)
 {
     Console.WriteLine($"\n[HP: {player.CurrentHp}/{player.MaxHp} | Gold: {player.Gold} GP]");
-    Console.Write("[1] Log Boss Kill  [2] View Drop Log  [3] View Inventory  [4] Drop Item  [5] Rest at Lumbridge [99] Fight Hill Giant  [0] Exit\nChoice: ");
+    Console.Write("[1] Log Boss Kill  [2] View Drop Log  [3] View Inventory  [4] Drop Item  [5] Rest at Lumbridge [6] Edgeville General Store Purchasing [99] Fight Hill Giant  [0] Exit\nChoice: ");
     var input = Console.ReadLine()?.Trim();
 
     if (input == "0") break;
@@ -67,6 +67,29 @@ while (true)
         {
             Console.WriteLine("You have rested and healed.");
         }
+    }
+    else if (input == "6")
+    {
+        Console.WriteLine($"You currently have: {player.Gold} GP");
+        Console.WriteLine("\n[1] (20 GP) Lobster\n[2] (50 GP) Strength Potion");
+        
+        var choice = Console.ReadLine()?.Trim();
+
+        if (choice == "1" && player.Gold >= 20)
+        {
+            player.AddItem("Lobster", 1);
+            player.Gold -= 20;
+        }
+        else if (choice == "2" && player.Gold >= 50)
+        {
+            player.AddItem("Strength Potion", 1);
+            player.Gold -= 50;
+        }
+        else
+        {
+            Console.WriteLine("You don't have enough money for this item :'(");
+        }
+        
     }
     else if (input == "99")
     {

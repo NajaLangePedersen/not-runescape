@@ -10,7 +10,8 @@ public class Player
     public Dictionary<string, int> Inventory { get; set; } = new()
     {
         { "Lobster", 3 },
-        { "Rune Scimitar", 1 }
+        { "Rune Scimitar", 1 },
+        { "Strength Potion", 0}
     };
 
     public void AddItem(string item, int amount)
