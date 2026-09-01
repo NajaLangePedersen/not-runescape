@@ -130,7 +130,7 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
     while (player.CurrentHp > 0 && giantHp > 0)
     {
         Console.WriteLine($"Your HP: {player.CurrentHp}/{player.MaxHp} | Hill Giant HP: {giantHp}");
-        Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster [3] Special Attack\nChoice: ");
+        Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster [3] Special Attack [4] Run Away\nChoice: ");
         var choice = Console.ReadLine()?.Trim();
 
         if (choice == "1")
@@ -164,6 +164,16 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
             Console.ResetColor();
             player.Gold -= 50;
             Console.WriteLine($"\nYou used 50 GP on this special attack.\nCurrent gold: {player.Gold} GP");
+        }
+        else if (choice == "4")
+        {
+            int roll = rng.Next(0, 2);
+
+            if (roll == 0)
+            {
+                break;
+            }
+            
         }
 
         if (giantHp > 0)
