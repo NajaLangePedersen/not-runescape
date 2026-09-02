@@ -1,4 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using NotRunescape;
 using OsrsTracker;
 
@@ -199,6 +202,7 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
     while (player.CurrentHp > 0 && giantHp > 0)
     {
         Console.WriteLine($"Your HP: {player.CurrentHp}/{player.MaxHp} | Hill Giant HP: {giantHp}");
+        Console.WriteLine($"Special Energy: {BuildEnergyBar(player.SpecialEnergy)}");
         Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster [3] Special Attack [4] Run Away\nChoice: ");
         var choice = Console.ReadLine()?.Trim();
 
@@ -207,6 +211,7 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
             int playerHit = rng.Next(0, 15);
             giantHp -= playerHit;
             player.HitHistory.Add(playerHit);
+            player.SpecialEnergy = Math.Min(100, player.SpecialEnergy + 10);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou slash the Hill Giant for a {playerHit}!");
             Console.ResetColor();
@@ -226,6 +231,13 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
         }
         else if (choice == "3")
         {
+            if (player.SpecialEnergy < 50)
+            {
+                Console.WriteLine("You don't have enough energy.");
+                return;
+            }
+            player.SpecialEnergy -= 50;
+
             int roll1 = rng.Next(0, 10);
             int roll2 = rng.Next(0, 10);
             giantHp -= (roll1 + roll2);
@@ -301,4 +313,12 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
         player.CurrentHp = player.MaxHp;
         Console.ResetColor();
     }
+}
+
+static string BuildEnergyBar(int energy)
+{
+    int filledBlocks = energy / 10;
+    int emptyBlocks = 10 - filledBlocks;
+
+    return "[" + new string('█', filledBlocks) + new string('░', emptyBlocks) + $"] {energy}%";
 }

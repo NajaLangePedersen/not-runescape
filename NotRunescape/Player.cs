@@ -1,4 +1,7 @@
-﻿namespace OsrsTracker;
+﻿using System;
+using System.Collections.Generic;
+
+namespace OsrsTracker;
 
 public class Player
 {
@@ -6,6 +9,7 @@ public class Player
     
     public int CurrentHp { get; set; } = 35;
     public int MaxHp { get; set; } = 35;
+    public int SpecialEnergy { get; set; } = 100;
     public int Gold { get; set; } = StarterGold;
     public List<int> HitHistory { get; set; } = new();
     public Dictionary<string, int> Inventory { get; set; } = new()

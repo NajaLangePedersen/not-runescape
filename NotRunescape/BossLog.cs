@@ -1,4 +1,6 @@
-﻿namespace NotRunescape;
+﻿using System;
+
+namespace NotRunescape;
 
 public class BossLog
 {
