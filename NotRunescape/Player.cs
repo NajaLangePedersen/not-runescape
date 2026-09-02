@@ -12,6 +12,8 @@ public class Player
     public int SpecialEnergy { get; set; } = 100;
     public int Gold { get; set; } = StarterGold;
     public List<int> HitHistory { get; set; } = new();
+    public bool ProtectionPrayerActive { get; set; } = false;
+    public int ProtectionPrayerTurns { get; set; } = 0;
     public Dictionary<string, int> Inventory { get; set; } = new()
     {
         { "Lobster", 3 },

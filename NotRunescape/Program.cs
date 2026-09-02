@@ -203,7 +203,16 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
     {
         Console.WriteLine($"Your HP: {player.CurrentHp}/{player.MaxHp} | Hill Giant HP: {giantHp}");
         Console.WriteLine($"Special Energy: {BuildEnergyBar(player.SpecialEnergy)}");
-        Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster [3] Special Attack [4] Run Away\nChoice: ");
+        Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster [3] Special Attack  [4] Activate Protection Prayer [5] Run Away\nChoice: ");
+
+        if (player.ProtectionPrayerActive)
+        {
+            Console.WriteLine($"Protection Prayer: Active ({player.ProtectionPrayerTurns} turns left)");
+        }
+        else
+        {
+            Console.WriteLine("Protection Prayer: Inactive");
+        }
         var choice = Console.ReadLine()?.Trim();
 
         if (choice == "1")
@@ -250,10 +259,33 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
         }
         else if (choice == "4")
         {
+            if (player.Gold < 10)
+            {
+                Console.WriteLine("You don't have enough money for healing.");
+                return;
+            }
+
+            if (player.ProtectionPrayerActive)
+            {
+                Console.WriteLine("\nThe Protection Prayer is already active.");
+                return;
+            }
+
+            player.Gold -= 10;
+            player.ProtectionPrayerActive = true;
+            player.ProtectionPrayerTurns = 3;
+
+            Console.WriteLine("\nYou have activated Protection Prayer! Incoming damage will be halved for three turns.");
+
+        }
+        else if (choice == "5")
+        {
             int roll = rng.Next(0, 2);
 
             if (roll == 0)
             {
+                player.ProtectionPrayerActive = false;
+                player.ProtectionPrayerTurns = 0;
                 break;
             }
             
@@ -262,10 +294,31 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
         if (giantHp > 0)
         {
             int giantHit = rng.Next(0, 6);
+
+            if (player.ProtectionPrayerActive)
+            {
+                giantHit /= 2;
+                if (giantHit < 1) giantHit = 1;
+            }
             player.CurrentHp -= giantHit;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"The Hill Giant swings his club for {giantHit} damage!\n");
             Console.ResetColor();
+
+            if (player.ProtectionPrayerActive)
+            {
+                player.ProtectionPrayerTurns--;
+
+                if (player.ProtectionPrayerTurns <= 0)
+                {
+                    player.ProtectionPrayerActive = false;
+                    player.ProtectionPrayerTurns = 0;
+
+                    Console.WriteLine("Your Protection Prayer has worn off.");
+                }
+            }
+
+            Console.WriteLine();
         }
     }
 
