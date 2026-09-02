@@ -198,11 +198,17 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
     Console.ResetColor();
 
     int giantHp = 35;
+    int giantMaxHp = 35;
     var rng = new Random();
 
     while (player.CurrentHp > 0 && giantHp > 0)
     {
-        Console.WriteLine($"Your HP: {player.CurrentHp}/{player.MaxHp} | Hill Giant HP: {giantHp}");
+        Console.Write($"Your HP:  | Hill Giant HP: ");
+        DrawHealthBar(player.CurrentHp, player.MaxHp);
+        Console.WriteLine($"{player.CurrentHp}/{player.MaxHp}");
+        Console.Write($"Hill Giant HP: ");
+        DrawHealthBar(giantHp, giantMaxHp);
+        Console.WriteLine($" {giantHp}/{giantMaxHp}");
         Console.WriteLine($"Special Energy: {BuildEnergyBar(player.SpecialEnergy)}");
         Console.Write("Action: [1] Slash with Rune Scimitar  [2] Eat Lobster [3] Special Attack  [4] Activate Protection Prayer [5] Run Away\nChoice: ");
 
@@ -381,6 +387,32 @@ static string BuildEnergyBar(int energy)
     int emptyBlocks = 10 - filledBlocks;
 
     return "[" + new string('█', filledBlocks) + new string('░', emptyBlocks) + $"] {energy}%";
+}
+
+static void DrawHealthBar(int current, int max)
+{
+    if (max <= 0) max = 1;
+
+    double ratio = (double)current / max;
+    int filled = (int)(ratio * 10);
+    if (filled < 0) filled = 0;
+    if (filled > 10) filled = 10;
+
+    int empty = 10 - filled;
+
+    Console.Write("[");
+
+    var oldFg = Console.ForegroundColor;
+
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write(new string('█', filled));
+
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.Write(new string('░', empty));
+
+    Console.ForegroundColor = oldFg;
+    
+    Console.Write("]");
 }
 
 static void DrawDamageHitsplat(int damage, bool isPlayer)
