@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using NotRunescape;
 using OsrsTracker;
 
@@ -220,6 +221,9 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
             int playerHit = rng.Next(0, 15);
             giantHp -= playerHit;
             player.HitHistory.Add(playerHit);
+            
+            DrawDamageHitsplat(playerHit, true);
+            
             player.SpecialEnergy = Math.Min(100, player.SpecialEnergy + 10);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou slash the Hill Giant for a {playerHit}!");
@@ -251,6 +255,8 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
             int roll2 = rng.Next(0, 10);
             giantHp -= (roll1 + roll2);
             player.HitHistory.Add(roll1+roll2);
+            
+            DrawDamageHitsplat(roll2+roll1, true);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nYou slash the Hill Giant for a {roll1} + {roll2}!");
             Console.ResetColor();
@@ -301,6 +307,7 @@ static void StartGiantFight(Player player, List<BossLog> bossLogs)
                 if (giantHit < 1) giantHit = 1;
             }
             player.CurrentHp -= giantHit;
+            DrawDamageHitsplat(giantHit, false);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"The Hill Giant swings his club for {giantHit} damage!\n");
             Console.ResetColor();
@@ -374,4 +381,29 @@ static string BuildEnergyBar(int energy)
     int emptyBlocks = 10 - filledBlocks;
 
     return "[" + new string('█', filledBlocks) + new string('░', emptyBlocks) + $"] {energy}%";
+}
+
+static void DrawDamageHitsplat(int damage, bool isPlayer)
+{
+    //Save current colors
+    var oldBg = Console.BackgroundColor;
+    var oldFg = Console.ForegroundColor;
+
+    if (isPlayer)
+    {
+        Console.BackgroundColor = ConsoleColor.DarkGreen;
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+    else
+    {
+        Console.BackgroundColor = ConsoleColor.DarkRed;
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+    Console.WriteLine($" {damage}");
+
+    Console.BackgroundColor = oldBg;
+    Console.ForegroundColor = oldFg;
+    
+    Console.WriteLine();
 }
